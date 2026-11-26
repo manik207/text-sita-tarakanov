@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Паспорт рабочего места — Динамическая версия</title>
+</head>
+<body>
+
+  <h1>Паспорт рабочего места (динамическая версия)</h1>
+  <p>Студент: Тараканов Максим, группа СИТ-113/26</p>
+
+  <h2>Параметры рабочего места</h2>
+  <table>
+    <thead>
+      <tr><th>Параметр</th><th>Значение</th></tr>
+    </thead>
+    <tbody id="params-body"></tbody>
+  </table>
+
+  <h2>Устройства</h2>
+  <table>
+    <thead>
+      <tr><th>Устройство</th><th>Группа</th></tr>
+    </thead>
+    <tbody id="devices-body"></tbody>
+  </table>
+
+  <h2>Программное обеспечение</h2>
+  <table>
+    <thead>
+      <tr><th>Программа</th><th>Тип ПО</th><th>Назначение</th></tr>
+    </thead>
+    <tbody id="software-body"></tbody>
+  </table>
+
+  <hr>
+  <p><a href="index.html">Статическая версия</a> | <a href="reports/pr1.html">Отчёт по ПР1</a></p>
+
+  <script>
+    fetch("data/workstation.json")
+      .then(response => response.json())
+      .then(data => {
+        const pBody = document.getElementById("params-body");
+        data.params.forEach(item => {
+          pBody.innerHTML += `<tr><td>${item.name}</td><td>${item.value}</td></tr>`;
+        });
+
+        const dBody = document.getElementById("devices-body");
+        data.devices.forEach(item => {
+          dBody.innerHTML += `<tr><td>${item.name}</td><td>${item.group}</td></tr>`;
+        });
+
+        const sBody = document.getElementById("software-body");
+        data.software.forEach(item => {
+          sBody.innerHTML += `<tr><td>${item.name}</td><td>${item.type}</td><td>${item.purpose}</td></tr>`;
+        });
+      })
+      .catch(error => console.error("Ошибка загрузки JSON:", error));
+  </script>
+
+</body>
+</html>
